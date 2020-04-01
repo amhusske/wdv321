@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>WDV321 Advanced Javascript - AJAX Text Example</title>
+
+<script>
+
+    
+	function getData()
+	{
+		var xmlhttp = new XMLHttpRequest(); //creates request object to be sent to server
+
+		xmlhttp.onreadystatechange=function(){    //onreadystatechange property // Calling anonymous function
+			if (xmlhttp.readyState==4 && xmlhttp.status==200)  //state 4 means it has been sent back and 200 means 'OK'
+			{
+                let jsonObj = JSON.parse(xmlhttp.responseText);
+                //console.log(jsonObj);
+
+                for ( i = 0; i < jsonObj.students.length; i++) {
+                
+                var currentStudent = jsonObj.students[i];
+                document.getElementById("myDiv").innerHTML += '<h3>' + 'Student ' + (i +  1) + '</h3>' +' <br> ';
+
+                    for (var property in currentStudent) {
+                        document.getElementById("myDiv").innerHTML +=  property + ' : ' + currentStudent[property] + '<br>';
+                    }
+                }   
+                //document.getElementById("myDiv").innerHTML = student1;  // .response object=predefined - stores response
+			}
+		}
+		
+		xmlhttp.open("GET","students.json",true); // pass get parameter(in URL) and url(on server) parameter
+		
+		xmlhttp.send(); // Send request to server
+	}
+</script>
+</head>
+<style>
+
+    #myDiv{
+        background-color: rgb(204, 183, 224);
+        color: white;
+        width: 50%;
+        margin: 0 auto;
+        padding: 15px;
+    }
+    h3{
+        color: rgb(0, 0, 0);
+    }
+    h2, h3{
+        text-align: center;
+    }
+</style>
+
+<body>
+<body>
+
+<h1>WDV321 Advanced Javascript</h1>
+
+<h2>AJAX Text Example using Javascript</h2>
+
+<p>This example will use AJAX to access a file on the server when the button is clicked.  
+The contents the file will be placed inside the following heading. It should replace the starting text.
+
+<div id="myDiv"><h2>Let AJAX change this text</h2></div>
+<button type="button" onclick="getData()">Change Content</button>
+
+</body>
+</html>
